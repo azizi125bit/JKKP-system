@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKKP - Jabatan Kesihatan dan Keselamatan Pekerja</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>🏭 JKKP</h1>
+                <p>Kesihatan & Keselamatan Pekerja</p>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+                <li><a href="#statistik" class="nav-link">Statistik</a></li>
+                <li><a href="#laporan" class="nav-link">Laporan</a></li>
+                <li><a href="#borang" class="nav-link">Borang</a></li>
+                <li><a href="#taklimat" class="nav-link">Taklimat</a></li>
+                <li><a href="#kontak" class="nav-link">Hubungi Kami</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section dashboard">
+        <div class="container">
+            <h2>Dashboard Keselamatan Pekerja</h2>
+            <div class="dashboard-grid">
+                <div class="card stats-card">
+                    <h3>Jumlah Kemalangan</h3>
+                    <p class="big-number" id="totalKemalangan">0</p>
+                    <button class="btn btn-primary" onclick="showDetailKemalangan()">Lihat Detail</button>
+                </div>
+                <div class="card stats-card">
+                    <h3>Jumlah Orang Terlibat</h3>
+                    <p class="big-number" id="totalOrang">0</p>
+                    <button class="btn btn-primary" onclick="showDetailOrang()">Lihat Detail</button>
+                </div>
+                <div class="card stats-card">
+                    <h3>Kemalangan Bulan Ini</h3>
+                    <p class="big-number" id="kemalanganganBulan">0</p>
+                    <button class="btn btn-primary" onclick="filterByMonth()">Filter Bulan</button>
+                </div>
+                <div class="card stats-card">
+                    <h3>Status Keselamatan</h3>
+                    <p class="status-text" id="statusKeselamatan">BAIK</p>
+                    <button class="btn btn-primary" onclick="showStatusDetail()">Keterangan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistik Section -->
+    <section id="statistik" class="section statistik">
+        <div class="container">
+            <h2>📊 Statistik Kemalangan</h2>
+            <div class="stats-content">
+                <div class="chart-container">
+                    <canvas id="statistikChart"></canvas>
+                </div>
+                <div class="stats-table-container">
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Jenis Kemalangan</th>
+                                <th>Bilangan</th>
+                                <th>Peratus</th>
+                            </tr>
+                        </thead>
+                        <tbody id="statistikTableBody">
+                            <tr>
+                                <td>Jatuh dari Ketinggian</td>
+                                <td>5</td>
+                                <td>25%</td>
+                            </tr>
+                            <tr>
+                                <td>Kemalangan Mesin</td>
+                                <td>4</td>
+                                <td>20%</td>
+                            </tr>
+                            <tr>
+                                <td>Terpotong/Luka Tajam</td>
+                                <td>6</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr>
+                                <td>Terbakar</td>
+                                <td>3</td>
+                                <td>15%</td>
+                            </tr>
+                            <tr>
+                                <td>Cedera Lain</td>
+                                <td>2</td>
+                                <td>10%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-success" onclick="downloadStatistik()">📥 Muat Turun Statistik</button>
+                <button class="btn btn-info" onclick="cetakStatistik()">🖨️ Cetak Statistik</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Laporan Section -->
+    <section id="laporan" class="section laporan">
+        <div class="container">
+            <h2>📋 Laporan Kemalangan</h2>
+            <div class="laporan-controls">
+                <input type="text" id="cariLaporan" placeholder="Cari laporan..." class="search-box">
+                <select id="filterStatus" class="filter-select">
+                    <option value="">Semua Status</option>
+                    <option value="Baru">Baru</option>
+                    <option value="Diproses">Diproses</option>
+                    <option value="Selesai">Selesai</option>
+                </select>
+                <button class="btn btn-primary" onclick="tambahLaporan()">➕ Laporan Baru</button>
+            </div>
+
+            <div id="laporanList" class="laporan-list">
+                <div class="laporan-card">
+                    <div class="laporan-header">
+                        <h3>Laporan #001 - Jatuh dari Tangga</h3>
+                        <span class="status-badge status-baru">Baru</span>
+                    </div>
+                    <div class="laporan-details">
+                        <p><strong>Tarikh:</strong> 2026-02-10</p>
+                        <p><strong>Lokasi:</strong> Bengkel A</p>
+                        <p><strong>Pekerja:</strong> Ahmad Bin Sulaiman</p>
+                        <p><strong>Keterangan:</strong> Pekerja terjatuh dari tangga setinggi 3 meter sambil melakukan pemeriksaan.</p>
+                        <p><strong>Kecederaan:</strong> Fraktur Kaki Kanan</p>
+                    </div>
+                    <div class="laporan-actions">
+                        <button class="btn btn-small btn-info" onclick="lihatLaporan(1)">👁️ Lihat</button>
+                        <button class="btn btn-small btn-warning" onclick="editLaporan(1)">✏️ Edit</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteLaporan(1)">🗑️ Padam</button>
+                    </div>
+                </div>
+
+                <div class="laporan-card">
+                    <div class="laporan-header">
+                        <h3>Laporan #002 - Kemalangan Mesin</h3>
+                        <span class="status-badge status-diproses">Diproses</span>
+                    </div>
+                    <div class="laporan-details">
+                        <p><strong>Tarikh:</strong> 2026-02-08</p>
+                        <p><strong>Lokasi:</strong> Bengkel B</p>
+                        <p><strong>Pekerja:</strong> Siti Aminah Binti Mohammad</p>
+                        <p><strong>Keterangan:</strong> Tangan tertangkap dalam mesin penggiling tanpa penjaga keselamatan.</p>
+                        <p><strong>Kecederaan:</strong> Luka Potong Berat di Tangan Kanan</p>
+                    </div>
+                    <div class="laporan-actions">
+                        <button class="btn btn-small btn-info" onclick="lihatLaporan(2)">👁️ Lihat</button>
+                        <button class="btn btn-small btn-warning" onclick="editLaporan(2)">✏️ Edit</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteLaporan(2)">🗑️ Padam</button>
+                    </div>
+                </div>
+
+                <div class="laporan-card">
+                    <div class="laporan-header">
+                        <h3>Laporan #003 - Kebakaran Kecil</h3>
+                        <span class="status-badge status-selesai">Selesai</span>
+                    </div>
+                    <div class="laporan-details">
+                        <p><strong>Tarikh:</strong> 2026-01-25</p>
+                        <p><strong>Lokasi:</strong> Gudang Bahan Kimia</p>
+                        <p><strong>Pekerja:</strong> Hassan Bin Ali</p>
+                        <p><strong>Keterangan:</strong> Kebakaran kecil akibat tumpahan bahan kimia mudah terbakar.</p>
+                        <p><strong>Kecederaan:</strong> Luka Bakar Ringan (Darjah 1)</p>
+                    </div>
+                    <div class="laporan-actions">
+                        <button class="btn btn-small btn-info" onclick="lihatLaporan(3)">👁️ Lihat</button>
+                        <button class="btn btn-small btn-warning" onclick="editLaporan(3)">✏️ Edit</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteLaporan(3)">🗑️ Padam</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Borang Section -->
+    <section id="borang" class="section borang">
+        <div class="container">
+            <h2>📝 Borang Keselamatan</h2>
+            <p class="section-subtitle">Muat turun dan isi semua borang yang diperlukan</p>
+            
+            <div class="borang-grid">
+                <div class="borang-card">
+                    <div class="borang-icon">📋</div>
+                    <h3>Borang Laporan Kemalangan</h3>
+                    <p>Borang lengkap untuk melaporkan kemalangan di tempat kerja.</p>
+                    <button class="btn btn-primary" onclick="downloadBorang('Borang_Laporan_Kemalangan.pdf')">📥 Muat Turun</button>
+                    <button class="btn btn-info" onclick="isiBorgForm('kemalangan')">✏️ Isi Dalam Talian</button>
+                </div>
+
+                <div class="borang-card">
+                    <div class="borang-icon">🏥</div>
+                    <h3>Borang Pemeriksaan Kesihatan</h3>
+                    <p>Borang untuk pemeriksaan kesihatan pekerja secara berkala.</p>
+                    <button class="btn btn-primary" onclick="downloadBorang('Borang_Pemeriksaan_Kesihatan.pdf')">📥 Muat Turun</button>
+                    <button class="btn btn-info" onclick="isiBorgForm('kesihatan')">✏️ Isi Dalam Talian</button>
+                </div>
+
+                <div class="borang-card">
+                    <div class="borang-icon">🔧</div>
+                    <h3>Borang Inspeksi Peralatan</h3>
+                    <p>Borang untuk pemeriksaan keselamatan peralatan dan mesin.</p>
+                    <button class="btn btn-primary" onclick="downloadBorang('Borang_Inspeksi_Peralatan.pdf')">📥 Muat Turun</button>
+                    <button class="btn btn-info" onclick="isiBorgForm('peralatan')">✏️ Isi Dalam Talian</button>
+                </div>
+
+                <div class="borang-card">
+                    <div class="borang-icon">🚨</div>
+                    <h3>Borang Laporan Bahaya</h3>
+                    <p>Borang untuk melaporkan potensi bahaya di tempat kerja.</p>
+                    <button class="btn btn-primary" onclick="downloadBorang('Borang_Laporan_Bahaya.pdf')">📥 Muat Turun</button>
+                    <button class="btn btn-info" onclick="isiBorgForm('bahaya')">✏️ Isi Dalam Talian</button>
+                </div>
+
+                <div class="borang-card">
+                    <div class="borang-icon">🎓</div>
+                    <h3>Borang Latihan Keselamatan</h3>
+                    <p>Borang rekod latihan dan taklimat keselamatan untuk pekerja.</p>
+                    <button class="btn btn-primary" onclick="downloadBorang('Borang_Latihan_Keselamatan.pdf')">📥 Muat Turun</button>
+                    <button class="btn btn-info" onclick="isiBorgForm('latihan')">✏️ Isi Dalam Talian</button>
+                </div>
+
+                <div class="borang-card">
+                    <div class="borang-icon">📊</div>
+                    <h3>Borang Penyelidikan Kemalangan</h3>
+                    <p>Borang untuk penyelidikan mendalam tentang punca kemalangan.</p>
+                    <button class="btn btn-primary" onclick="downloadBorang('Borang_Penyelidikan_Kemalangan.pdf')">📥 Muat Turun</button>
+                    <button class="btn btn-info" onclick="isiBorgForm('penyelidikan')">✏️ Isi Dalam Talian</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Taklimat Section -->
+    <section id="taklimat" class="section taklimat">
+        <div class="container">
+            <h2>🎓 Taklimat Keselamatan</h2>
+            <p class="section-subtitle">Program latihan dan taklimat kesihatan & keselamatan pekerja</p>
+
+            <div class="taklimat-tabs">
+                <button class="tab-button active" onclick="switchTab('video')">🎬 Video Taklimat</button>
+                <button class="tab-button" onclick="switchTab('surat')">📄 Surat Pengesahan</button>
+                <button class="tab-button" onclick="switchTab('jadual')">📅 Jadual Sesi</button>
+            </div>
+
+            <div id="video-tab" class="tab-content active">
+                <div class="video-grid">
+                    <div class="video-card">
+                        <h3>Pengenalan Keselamatan Umum</h3>
+                        <div class="video-placeholder">
+                            <p>🎬 Video Tutorial</p>
+                            <p>Durasi: 15 minit</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="playVideo('video1')">▶️ Tonton Video</button>
+                        <button class="btn btn-success" onclick="cetakSuratKeselamatan('pengenalan')">📄 Cetak Surat Hadir</button>
+                    </div>
+
+                    <div class="video-card">
+                        <h3>Penggunaan Alat Pelindung Diri (APD)</h3>
+                        <div class="video-placeholder">
+                            <p>🎬 Video Tutorial</p>
+                            <p>Durasi: 20 minit</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="playVideo('video2')">▶️ Tonton Video</button>
+                        <button class="btn btn-success" onclick="cetakSuratKeselamatan('apd')">📄 Cetak Surat Hadir</button>
+                    </div>
+
+                    <div class="video-card">
+                        <h3>Prosedur Tindakan Darurat</h3>
+                        <div class="video-placeholder">
+                            <p>🎬 Video Tutorial</p>
+                            <p>Durasi: 18 minit</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="playVideo('video3')">▶️ Tonton Video</button>
+                        <button class="btn btn-success" onclick="cetakSuratKeselamatan('darurat')">📄 Cetak Surat Hadir</button>
+                    </div>
+
+                    <div class="video-card">
+                        <h3>Ergonomi di Tempat Kerja</h3>
+                        <div class="video-placeholder">
+                            <p>🎬 Video Tutorial</p>
+                            <p>Durasi: 22 minit</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="playVideo('video4')">▶️ Tonton Video</button>
+                        <button class="btn btn-success" onclick="cetakSuratKeselamatan('ergonomi')">📄 Cetak Surat Hadir</button>
+                    </div>
+
+                    <div class="video-card">
+                        <h3>Keselamatan Bahan Kimia</h3>
+                        <div class="video-placeholder">
+                            <p>🎬 Video Tutorial</p>
+                            <p>Durasi: 25 minit</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="playVideo('video5')">▶️ Tonton Video</button>
+                        <button class="btn btn-success" onclick="cetakSuratKeselamatan('kimia')">📄 Cetak Surat Hadir</button>
+                    </div>
+
+                    <div class="video-card">
+                        <h3>Pengurusan Wasit dan Stres Kerja</h3>
+                        <div class="video-placeholder">
+                            <p>🎬 Video Tutorial</p>
+                            <p>Durasi: 19 minit</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="playVideo('video6')">▶️ Tonton Video</button>
+                        <button class="btn btn-success" onclick="cetakSuratKeselamatan('stres')">📄 Cetak Surat Hadir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="surat-tab" class="tab-content">
+                <h3>Surat Pengesahan Kehadiran Taklimat</h3>
+                <div class="surat-container">
+                    <div class="surat-list">
+                        <div class="surat-item">
+                            <h4>Surat #S001 - Ahmad Sulaiman</h4>
+                            <p><strong>Sesi:</strong> Pengenalan Keselamatan Umum</p>
+                            <p><strong>Tarikh:</strong> 2026-02-01</p>
+                            <p><strong>Status:</strong> <span class="badge-success">Hadir</span></p>
+                            <button class="btn btn-info" onclick="lihatSurat('s001')">👁️ Lihat Surat</button>
+                            <button class="btn btn-success" onclick="cetakSurat('s001')">🖨️ Cetak</button>
+                        </div>
+
+                        <div class="surat-item">
+                            <h4>Surat #S002 - Siti Aminah</h4>
+                            <p><strong>Sesi:</strong> Penggunaan APD</p>
+                            <p><strong>Tarikh:</strong> 2026-02-03</p>
+                            <p><strong>Status:</strong> <span class="badge-success">Hadir</span></p>
+                            <button class="btn btn-info" onclick="lihatSurat('s002')">👁️ Lihat Surat</button>
+                            <button class="btn btn-success" onclick="cetakSurat('s002')">🖨️ Cetak</button>
+                        </div>
+
+                        <div class="surat-item">
+                            <h4>Surat #S003 - Hassan Ali</h4>
+                            <p><strong>Sesi:</strong> Prosedur Tindakan Darurat</p>
+                            <p><strong>Tarikh:</strong> 2026-02-05</p>
+                            <p><strong>Status:</strong> <span class="badge-success">Hadir</span></p>
+                            <button class="btn btn-info" onclick="lihatSurat('s003')">👁️ Lihat Surat</button>
+                            <button class="btn btn-success" onclick="cetakSurat('s003')">🖨️ Cetak</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="jadual-tab" class="tab-content">
+                <h3>Jadual Sesi Taklimat</h3>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Tajuk Taklimat</th>
+                            <th>Tarikh</th>
+                            <th>Masa</th>
+                            <th>Lokasi</th>
+                            <th>Peserta</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pengenalan Keselamatan Umum</td>
+                            <td>2026-02-15</td>
+                            <td>09:00 - 10:00</td>
+                            <td>Dewan Mesyuarat A</td>
+                            <td>15 orang</td>
+                            <td>
+                                <button class="btn btn-small btn-info" onclick="daftarTaklimat('seminar1')">📝 Daftar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Penggunaan Alat Pelindung Diri (APD)</td>
+                            <td>2026-02-17</td>
+                            <td>14:00 - 15:30</td>
+                            <td>Bengkel Latihan</td>
+                            <td>20 orang</td>
+                            <td>
+                                <button class="btn btn-small btn-info" onclick="daftarTaklimat('seminar2')">📝 Daftar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Prosedur Tindakan Darurat</td>
+                            <td>2026-02-22</td>
+                            <td>10:00 - 11:30</td>
+                            <td>Bilik Kecemasan</td>
+                            <td>25 orang</td>
+                            <td>
+                                <button class="btn btn-small btn-info" onclick="daftarTaklimat('seminar3')">📝 Daftar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ergonomi di Tempat Kerja</td>
+                            <td>2026-02-24</td>
+                            <td>15:00 - 16:30</td>
+                            <td>Dewan Mesyuarat B</td>
+                            <td>18 orang</td>
+                            <td>
+                                <button class="btn btn-small btn-info" onclick="daftarTaklimat('seminar4')">📝 Daftar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal untuk Borang Isi Dalam Talian -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Isi Borang</h2>
+            <form id="dynamicForm">
+                <div class="form-group">
+                    <label>Nama Pekerja:</label>
+                    <input type="text" placeholder="Masukkan nama lengkap" required>
+                </div>
+                <div class="form-group">
+                    <label>No. Matrik Pekerja:</label>
+                    <input type="text" placeholder="Contoh: KP123456" required>
+                </div>
+                <div class="form-group">
+                    <label>Tarikh Kejadian:</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Lokasi Kejadian:</label>
+                    <input type="text" placeholder="Masukkan lokasi" required>
+                </div>
+                <div class="form-group">
+                    <label>Penerangan Kejadian:</label>
+                    <textarea rows="4" placeholder="Terangkan kejadian secara terperinci" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Tindakan Segera:</label>
+                    <textarea rows="3" placeholder="Tindakan apa yang telah diambil" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">💾 Simpan Borang</button>
+                    <button type="reset" class="btn btn-warning">🔄 Ulang Semula</button>
+                    <button type="button" class="btn btn-danger" onclick="closeModal()">❌ Tutup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal untuk Daftar Taklimat -->
+    <div id="daftarModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDaftarModal()">&times;</span>
+            <h2>Pendaftaran Taklimat Keselamatan</h2>
+            <form id="daftarForm">
+                <div class="form-group">
+                    <label>Nama Penuh:</label>
+                    <input type="text" placeholder="Masukkan nama penuh" required>
+                </div>
+                <div class="form-group">
+                    <label>No. Matrik:</label>
+                    <input type="text" placeholder="Contoh: KP123456" required>
+                </div>
+                <div class="form-group">
+                    <label>Jabatan:</label>
+                    <input type="text" placeholder="Masukkan jabatan" required>
+                </div>
+                <div class="form-group">
+                    <label>No. Telefon:</label>
+                    <input type="tel" placeholder="Contoh: 0123456789" required>
+                </div>
+                <div class="form-group">
+                    <label>Alamat Email:</label>
+                    <input type="email" placeholder="Contoh: nama@email.com" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">✅ Daftar Sekarang</button>
+                    <button type="button" class="btn btn-danger" onclick="closeDaftarModal()">❌ Tutup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kontak Section -->
+    <section id="kontak" class="section kontak">
+        <div class="container">
+            <h2>☎️ Hubungi Kami</h2>
+            <div class="kontak-grid">
+                <div class="kontak-info">
+                    <h3>📞 Telefon</h3>
+                    <p>+60-3-XXXX XXXX</p>
+                    <p>+60-19-XXXX XXXX (Kecemasan)</p>
+                </div>
+                <div class="kontak-info">
+                    <h3>📧 Email</h3>
+                    <p>info@jkkp.gov.my</p>
+                    <p>laporan@jkkp.gov.my</p>
+                </div>
+                <div class="kontak-info">
+                    <h3>📍 Alamat</h3>
+                    <p>Jabatan Kesihatan & Keselamatan Pekerja</p>
+                    <p>Kementerian Sumber Manusia</p>
+                </div>
+                <div class="kontak-info">
+                    <h3>🕐 Waktu Operasi</h3>
+                    <p>Isnin - Jumaat: 08:00 - 17:00</p>
+                    <p>Sabtu & Ahad: Tutup</p>
+                </div>
+            </div>
+
+            <div class="feedback-form">
+                <h3>📝 Hantar Maklum Balas</h3>
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label>Nama:</label>
+                        <input type="text" placeholder="Nama anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" placeholder="Email anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mesej:</label>
+                        <textarea rows="5" placeholder="Tulis maklum balas anda di sini..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">📤 Hantar Maklum Balas</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 JKKP - Jabatan Kesihatan dan Keselamatan Pekerja. Semua hak terpelihara.</p>
+            <p>Website dibuat oleh: <strong>azizi125bit</strong> | Untuk Pertandingan Inovasi</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
